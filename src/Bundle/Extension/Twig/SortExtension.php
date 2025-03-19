@@ -4,7 +4,7 @@ namespace UnZeroUn\Sorter\Bundle\Extension\Twig;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use UnZeroUn\Sorter\Builder\UrlBuilder;
+use UnZeroUn\Sorter\Builder\QueryParamUrlBuilder;
 use UnZeroUn\Sorter\Sorter;
 
 /**
@@ -13,7 +13,7 @@ use UnZeroUn\Sorter\Sorter;
 class SortExtension extends \Twig_Extension
 {
     /**
-     * @var UrlBuilder
+     * @var QueryParamUrlBuilder
      */
     private $urlBuilder;
 
@@ -23,9 +23,9 @@ class SortExtension extends \Twig_Extension
     private $requestStack;
 
     /**
-     * @param UrlBuilder $urlBuilder
+     * @param QueryParamUrlBuilder $urlBuilder
      */
-    public function __construct(UrlBuilder $urlBuilder, RequestStack $requestStack)
+    public function __construct(QueryParamUrlBuilder $urlBuilder, RequestStack $requestStack)
     {
         $this->urlBuilder   = $urlBuilder;
         $this->requestStack = $requestStack;

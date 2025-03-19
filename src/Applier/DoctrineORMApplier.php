@@ -7,7 +7,6 @@ use UnZeroUn\Sorter\Sort;
 
 class DoctrineORMApplier implements SortApplier
 {
-
     /**
      * @param Sort         $sort
      * @param QueryBuilder $data

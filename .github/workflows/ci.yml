@@ -1,0 +1,54 @@
+name: CI
+
+on:
+    push:
+    pull_request:
+
+jobs:
+    cs:
+        runs-on: ubuntu-latest
+        name: Code Style
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Call php-cs-fixer Dagger Function
+                uses: dagger/dagger-for-github@v7
+                with:
+                    version: "latest"
+                    verb: call
+                    args: php-cs-fixer --source=.
+
+    psalm:
+        runs-on: ubuntu-latest
+        permissions:
+            security-events: write
+        name: Static Analysis
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Call Psalm Dagger Function
+                uses: dagger/dagger-for-github@v7
+                with:
+                    version: "latest"
+                    verb: call
+                    args: psalm --source=.
+
+    phpunit:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php-versions: [ '8.1', '8.2', '8.3', '8.4' ]
+                dependencies-versions: [ lowest, highest ]
+        name: PHPUnit test suite
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Call Test Dagger Function
+                uses: dagger/dagger-for-github@v7
+                with:
+                    version: "latest"
+                    verb: call
+                    args: test --source=. --php-version=${{ matrix.php-versions }} --dependency-version=${{ matrix.dependencies-versions }}

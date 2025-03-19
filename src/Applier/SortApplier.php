@@ -1,6 +1,7 @@
 <?php
 
 namespace UnZeroUn\Sorter\Applier;
+
 use UnZeroUn\Sorter\Sort;
 
 /**

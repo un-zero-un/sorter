@@ -2,46 +2,26 @@
 
 namespace UnZeroUn\Sorter;
 
-class Sort
+final class Sort
 {
-    /**
-     * @var array
-     */
-    private $fields = [];
+    private array $fields = [];
 
-    /**
-     * @param string $field
-     * @param string $direction
-     */
-    public function add($field, $direction)
+    public function add(string $field, string $direction): void
     {
         $this->fields[$field] = $direction;
     }
 
-    /**
-     * @return array
-     */
-    public function getFields()
+    public function getFields(): array
     {
         return array_keys($this->fields);
     }
 
-    /**
-     * @param string $field
-     *
-     * @return mixed
-     */
-    public function getDirection($field)
+    public function getDirection(string $field): mixed
     {
         return $this->fields[$field];
     }
 
-    /**
-     * @param string $field
-     *
-     * @return bool
-     */
-    public function has($field)
+    public function has(string $field): bool
     {
         return isset($this->fields[$field]);
     }

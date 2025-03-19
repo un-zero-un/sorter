@@ -32,7 +32,7 @@ class ArrayApplier implements SortApplier
             $data,
             function ($left, $right) use ($sort) {
                 foreach ($sort->getFields() as $field) {
-                    $leftValue  = $this->propertyAccessor->getValue($left,  $field);
+                    $leftValue  = $this->propertyAccessor->getValue($left, $field);
                     $rightValue = $this->propertyAccessor->getValue($right, $field);
 
                     if ($leftValue > $rightValue) {
