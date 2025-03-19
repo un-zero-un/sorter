@@ -2,7 +2,13 @@ name: CI
 
 on:
     push:
-    pull_request:
+        branches:
+            - main
+    pull_request: ~
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+    cancel-in-progress: true
 
 jobs:
     cs:
@@ -17,7 +23,7 @@ jobs:
                 with:
                     version: "latest"
                     verb: call
-                    args: php-cs-fixer --source=.
+                    args: php-cs-fixer
 
     psalm:
         runs-on: ubuntu-latest
@@ -33,7 +39,7 @@ jobs:
                 with:
                     version: "latest"
                     verb: call
-                    args: psalm --source=.
+                    args: psalm
 
     phpunit:
         runs-on: ubuntu-latest
@@ -51,4 +57,4 @@ jobs:
                 with:
                     version: "latest"
                     verb: call
-                    args: test --source=. --php-version=${{ matrix.php-versions }} --dependency-version=${{ matrix.dependencies-versions }}
+                    args: test --php-version=${{ matrix.php-versions }} --dependency-version=${{ matrix.dependencies-versions }}

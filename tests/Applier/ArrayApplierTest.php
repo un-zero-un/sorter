@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace UnZeroUn\Sorter\Tests\Applier;
 
 use PHPUnit\Framework\MockObject\MockObject;
@@ -9,17 +11,17 @@ use UnZeroUn\Sorter\Sort;
 
 final class ArrayApplierTest extends TestCase
 {
-    function testSupportsArray(): void
+    public function testSupportsArray(): void
     {
         $this->assertTrue((new ArrayApplier())->supports([]));
     }
 
-    function testNotSupportsThings(): void
+    public function testNotSupportsThings(): void
     {
         $this->assertFalse((new ArrayApplier())->supports(new \stdClass()));
     }
 
-    function testSortBasicArray(): void
+    public function testSortBasicArray(): void
     {
         /** @var Sort&MockObject $sort */
         $toBeSorted = [
@@ -27,7 +29,6 @@ final class ArrayApplierTest extends TestCase
             ['a' => 456],
             ['a' => 789],
         ];
-
 
         $sort = $this->createMock(Sort::class);
         $sort->method('getFields')->willReturn(['[a]']);

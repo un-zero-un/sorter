@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace UnZeroUn\Tests\Sorter;
 
 use PHPUnit\Framework\TestCase;
@@ -7,7 +9,7 @@ use UnZeroUn\Sorter\Sort;
 
 final class SortTest extends TestCase
 {
-    function testAddsAndRetrieveASort(): void
+    public function testAddsAndRetrieveASort(): void
     {
         $sort = new Sort();
         $sort->add('a', 'DESC');

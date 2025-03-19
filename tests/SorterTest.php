@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace UnZeroUn\Tests\Sorter;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
 use UnZeroUn\Sorter\Applier\SortApplier;
 use UnZeroUn\Sorter\Sort;
@@ -25,7 +28,7 @@ final class SorterTest extends TestCase
         $this->sorter = new Sorter($this->factory);
     }
 
-    function testTakesFieldsIntoAccount(): void
+    public function testTakesFieldsIntoAccount(): void
     {
         $this->sorter->add('a', '[a]');
         $this->sorter->add('b', '[b]');
@@ -34,7 +37,7 @@ final class SorterTest extends TestCase
         $this->assertSame('[a]', $this->sorter->getPath('a'));
     }
 
-    function testHandlesArray(): void
+    public function testHandlesArray(): void
     {
         $this->sorter->add('a', '[a]');
         $this->sorter->add('b', '[b]');
@@ -43,21 +46,21 @@ final class SorterTest extends TestCase
         $this->assertSame('ASC', $this->sorter->getCurrentSort()->getDirection('[a]'));
     }
 
-    function testHandlesRequest(): void
+    public function testHandlesRequest(): void
     {
         /** @var Request&MockObject $request */
         $request = $this->createMock(Request::class);
         $this->sorter->add('a', '[a]');
         $this->sorter->add('b', '[b]');
 
-        $request->method('get')->willReturnCallback(fn (string $key) => 'a' === $key ? 'ASC' : null);
+        $request->query = new InputBag(['a' => 'ASC']);
 
         $this->sorter->handleRequest($request);
 
         $this->assertSame('ASC', $this->sorter->getCurrentSort()->getDirection('[a]'));
     }
 
-    function testUseDefaultsIfNoFieldsProvided(): void
+    public function testUseDefaultsIfNoFieldsProvided(): void
     {
         $this->sorter->add('a', '[a]');
         $this->sorter->add('b', '[b]');
@@ -69,7 +72,7 @@ final class SorterTest extends TestCase
         $this->assertSame('DESC', $this->sorter->getCurrentSort()->getDirection('[c]'));
     }
 
-    function testUseFieldsIfProvided(): void
+    public function testUseFieldsIfProvided(): void
     {
         $this->sorter->add('a', '[a]');
         $this->sorter->add('b', '[b]');
@@ -81,7 +84,7 @@ final class SorterTest extends TestCase
         $this->assertSame('ASC', $this->sorter->getCurrentSort()->getDirection('[a]'));
     }
 
-    function testHandlesMultipleDefaults(): void
+    public function testHandlesMultipleDefaults(): void
     {
         $this->sorter->add('a', '[a]');
         $this->sorter->add('b', '[b]');
@@ -97,12 +100,12 @@ final class SorterTest extends TestCase
         $this->assertSame('ASC', $currentSort->getDirection('[d]'));
     }
 
-    function testSorts(): void
+    public function testSorts(): void
     {
         /** @var SortApplier&MockObject $applier */
         $applier = $this->createMock(SortApplier::class);
 
-        $data   = [['a' => 123], ['a' => 234]];
+        $data = [['a' => 123], ['a' => 234]];
         $sorted = [['a' => 234], ['a' => 123]];
 
         $this->sorter->add('a', '[a]');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace UnZeroUn\Sorter\Builder;
 
 use Symfony\Component\HttpFoundation\Request;

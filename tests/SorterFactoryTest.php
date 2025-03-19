@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace UnZeroUn\Tests\Sorter;
 
 use PHPUnit\Framework\MockObject\MockObject;
@@ -31,7 +33,7 @@ final class SorterFactoryTest extends TestCase
         $this->sorterFactory = new SorterFactory([$this->applier1, $this->applier2]);
     }
 
-    function testCreatesSorterFromDefinition(): void
+    public function testCreatesSorterFromDefinition(): void
     {
         /** @var Definition&MockObject $definition */
         $definitionMock = $this->createMock(Definition::class);
@@ -41,7 +43,7 @@ final class SorterFactoryTest extends TestCase
         $this->assertInstanceOf(Sorter::class, $this->sorterFactory->createSorter($definitionMock));
     }
 
-    function testHasAppliers(): void
+    public function testHasAppliers(): void
     {
         $this->applier1->expects($this->once())->method('supports')->with([])->willReturn(false);
         $this->applier2->expects($this->once())->method('supports')->with([])->willReturn(true);

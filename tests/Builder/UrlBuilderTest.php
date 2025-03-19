@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace UnZeroUn\Sorter\Tests\Builder;
 
 use PHPUnit\Framework\MockObject\MockObject;
@@ -11,7 +13,7 @@ use UnZeroUn\Sorter\Sorter;
 
 final class UrlBuilderTest extends TestCase
 {
-    function testGeneratesFromRequest(): void
+    public function testGeneratesFromRequest(): void
     {
         /** @var Request&MockObject $request */
         $request = $this->createMock(Request::class);

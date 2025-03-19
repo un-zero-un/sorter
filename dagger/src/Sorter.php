@@ -17,7 +17,7 @@ use function Dagger\dag;
 #[Doc('Sorter dagger functions')]
 class Sorter
 {
-    private const PHP_VERSIONS = ['8.1', '8.2', '8.3'];
+    private const PHP_VERSIONS = ['8.1', '8.2', '8.3', '8.4'];
 
     #[DaggerFunction]
     #[Doc('Build test environnment')]
@@ -55,7 +55,7 @@ class Sorter
             ->withExec(['composer', 'install'])
             ->withDirectory('src', $source->directory('src'))
             ->withDirectory('tests', $source->directory('tests'))
-            //->withFile('.php-cs-fixer.dist.php', $source->file('.php-cs-fixer.dist.php'))
+            ->withFile('.php-cs-fixer.dist.php', $source->file('.php-cs-fixer.dist.php'))
             ->withFile('phpunit.xml.dist', $source->file('phpunit.xml.dist'))
             ->withFile('psalm.xml', $source->file('psalm.xml'));
     }
