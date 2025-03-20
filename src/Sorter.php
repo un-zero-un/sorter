@@ -6,6 +6,7 @@ namespace UnZeroUn\Sorter;
 
 use Symfony\Component\HttpFoundation\Request;
 use UnZeroUn\Sorter\Exception\NoSortException;
+use UnZeroUn\Sorter\Exception\ScalarExpectedException;
 use UnZeroUn\Sorter\Exception\UnknowSortDirectionException;
 
 final class Sorter
@@ -90,16 +91,20 @@ final class Sorter
     }
 
     /**
-     * @param array<string, scalar> $values
+     * @param array<string, scalar|array<string, scalar>> $values
      */
     public function handle(array $values): void
     {
-        if (null !== $this->prefix && isset($values[$this->prefix])) {
+        if (null !== $this->prefix && isset($values[$this->prefix]) && \is_array($values[$this->prefix])) {
             $values = $values[$this->prefix];
         }
 
         $sort = new Sort();
         foreach ($values as $field => $value) {
+            if (!\is_scalar($value)) {
+                throw new ScalarExpectedException($value);
+            }
+
             if (!\in_array($value, [Sort::ASC, Sort::DESC], true)) {
                 throw new UnknowSortDirectionException($value);
             }
@@ -121,6 +126,7 @@ final class Sorter
         $fields = [];
 
         if (null !== $this->prefix && ($values = $request->query->all($this->prefix))) {
+            /** @var array<string, scalar> $values */
             $this->handle([$this->prefix => $values]);
 
             return;

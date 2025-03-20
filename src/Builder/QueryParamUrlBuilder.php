@@ -26,7 +26,7 @@ final class QueryParamUrlBuilder implements UrlBuilder
         $prefix = $sorter->getPrefix();
 
         foreach ($sorter->getFields() as $fieldName) {
-            if (null !== $prefix) {
+            if (null !== $prefix && isset($query[$prefix][$fieldName])) {
                 unset($query[$prefix][$fieldName]);
                 continue;
             }
@@ -35,8 +35,11 @@ final class QueryParamUrlBuilder implements UrlBuilder
         }
 
         if (null === $prefix) {
+            /** @var array<string, string> $query */
             $query[$field] = $direction;
         } else {
+            /** @var array<string, array<string, string>> $query */
+            $query[$prefix] = $query[$prefix] ?? [];
             $query[$prefix][$field] = $direction;
         }
 
