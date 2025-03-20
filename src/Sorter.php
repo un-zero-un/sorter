@@ -22,6 +22,8 @@ final class Sorter
 
     private ?Sort $currentSort = null;
 
+    private ?string $prefix = null;
+
     public function __construct(private readonly SorterFactory $factory)
     {
     }
@@ -53,6 +55,18 @@ final class Sorter
         return $this;
     }
 
+    public function getPrefix(): ?string
+    {
+        return $this->prefix;
+    }
+
+    public function setPrefix(?string $prefix): self
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
     /**
      * @return string[]
      */
@@ -80,6 +94,10 @@ final class Sorter
      */
     public function handle(array $values): void
     {
+        if (null !== $this->prefix && isset($values[$this->prefix])) {
+            $values = $values[$this->prefix];
+        }
+
         $sort = new Sort();
         foreach ($values as $field => $value) {
             if (!\in_array($value, [Sort::ASC, Sort::DESC], true)) {
@@ -101,6 +119,13 @@ final class Sorter
     public function handleRequest(Request $request): void
     {
         $fields = [];
+
+        if (null !== $this->prefix && ($values = $request->query->all($this->prefix))) {
+            $this->handle([$this->prefix => $values]);
+
+            return;
+        }
+
         foreach ($this->getFields() as $field) {
             if (null !== ($value = $request->query->get($field))) {
                 $fields[$field] = $value;
