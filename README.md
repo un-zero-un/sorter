@@ -1,6 +1,9 @@
 Sorter
 ======
 
+ > [!WARNING]
+ This repo is archived and the project now lives here : https://github.com/yohang/sorter
+
 Sorter is a PHP column sorting library that allows you to apply sorts of any kind of data source.
 
 [![tests](https://github.com/un-zero-un/sorter/actions/workflows/ci.yml/badge.svg)](https://github.com/un-zero-un/sorter/actions/workflows/ci.yml)
